@@ -50,15 +50,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Device Firmware Update"
+rootProject.name = "M620 OTA"
 
 include(":app")
-include(":lib:analytics")
 include(":lib:dfu")
-include(":lib:storage")
-include(":lib:settings")
-include(":profile:main")
-include(":profile:scanner")
-include(":profile:settings")
-include(":profile:welcome")
-include(":profile:navigation")

@@ -1,37 +1,32 @@
 plugins {
     // https://github.com/NordicSemiconductor/Android-Gradle-Plugins/blob/main/plugins/src/main/kotlin/AndroidApplicationComposeConventionPlugin.kt
     alias(libs.plugins.nordic.application.compose)
-    // https://github.com/NordicSemiconductor/Android-Gradle-Plugins/blob/main/plugins/src/main/kotlin/AndroidHiltConventionPlugin.kt
-    alias(libs.plugins.nordic.hilt)
-}
-
-if (gradle.startParameter.taskRequests.toString().contains("Release")) {
-    apply(plugin = "com.google.gms.google-services")
-    apply(plugin = "com.google.firebase.crashlytics")
 }
 
 android {
-    namespace = "no.nordicsemi.android.dfu.app"
+    namespace = "com.huixiangtel.m620ota"
     defaultConfig {
-        applicationId = "no.nordicsemi.android.dfu"
-    }
-    androidResources {
-        localeFilters += setOf("en")
+        applicationId = "com.huixiangtel.m620ota"
     }
 }
 
 dependencies {
-    implementation(project(":lib:analytics"))
-    implementation(project(":lib:storage")) // Deep link support
-    implementation(project(":profile:navigation"))
+    // Nordic DFU library (local module).
+    implementation(project(":lib:dfu"))
 
-    implementation(nordic.theme)
-    implementation(nordic.navigation)
+    // Jetpack Compose (Material 3).
+    implementation(platform("androidx.compose:compose-bom:2024.12.01"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
 
-    // Use native Android BLE client.
-    // This can be switched to mock client for testing purposes (not implemented yet).
-    // See CentralManagerModule.kt in :app module.
-    implementation(nordic.blek.client.android)
+    implementation("androidx.activity:activity-compose:1.9.3")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
 
-    implementation(libs.androidx.activity.compose)
+    // Firmware download.
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
 }
